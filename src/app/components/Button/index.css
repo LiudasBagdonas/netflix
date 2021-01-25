@@ -1,0 +1,20 @@
+button {
+    background-color: #E50914;
+    color: #E5E5E5;
+    height: 40px;
+    width: 120px;
+    border-radius: 4px;
+    outline: none;
+    padding: 15px;
+    border: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+button:active {
+    background-color: #E50980;
+}
