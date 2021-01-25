@@ -1,5 +1,5 @@
 import './index.css';
-import navimg from '../imgs/navigationimg.png';
+import navimg from '../../imgs/navigationimg.png';
 import Button from '../Button';
 
 function Header() {
@@ -10,7 +10,7 @@ function Header() {
                 <div className="nav-home-img-box">
                     <img src={navimg} className="nav-home-img" alt=""></img>
                 </div>
-                <Button>Sign In</Button>
+                <Button big>Sign In</Button>
             </nav>
         </header>
     );

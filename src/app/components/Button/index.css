@@ -1,11 +1,10 @@
-button {
+.button {
     background-color: #E50914;
     color: #E5E5E5;
-    height: 40px;
-    width: 120px;
+    /* height: 40px;
+    width: 120px; */
     border-radius: 4px;
     outline: none;
-    padding: 15px;
     border: 0px;
     font-size: 18px;
     font-weight: bold;
@@ -17,4 +16,15 @@ button {
 
 button:active {
     background-color: #E50980;
+}
+
+.button--big {
+    height: 40px;
+    padding: 10px 40px;
+}
+
+.button--small {
+    height: 30px;
+    padding: 10px 30px;
+    font-size: 15px;
 }

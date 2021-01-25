@@ -1,0 +1,10 @@
+.movies-content {
+    /* width: 100%; */
+    min-height: 300px;
+    background-color: #000000;
+    display: grid;
+    grid-template-columns: repeat(3, 270px);
+    grid-gap: 150px;
+    /* width: 910px; */
+    align-items: center;
+}

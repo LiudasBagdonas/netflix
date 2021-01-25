@@ -1,9 +1,11 @@
 import './index.css';
 
-function Button({children}) {
+function Button({children, big}) {
+
+const size = big ? 'big' : 'small';
 
     return (
-        <button>{children}</button>
+        <button className={`button button--${size}`}>{children}</button>
     );
 }
 
