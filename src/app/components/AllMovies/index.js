@@ -6,7 +6,8 @@ class AllMovies extends React.Component {
   state = {
     isLoading: false,
     error: null,
-    movies: []
+    movies: [],
+    favorites: []
   };
 
 //   componentDidMount() {
@@ -37,7 +38,6 @@ class AllMovies extends React.Component {
 
       const response = await fetch("https://academy-video-api.herokuapp.com/content/free-items/");
       const json = await response.json();
-console.log(json)
       if (!response.ok) {
         const error =
           { 404: "The thing you're looking for is not there 🤷‍♂️" }[
@@ -55,15 +55,33 @@ console.log(json)
     }
   }
 
+  toggleFavorites=(id)=> {
+    if (this.state.favorites.includes(id)) {
+      const newFavorites = this.state.favorites.filter(favorite => favorite !== id )
+      this.setState({favorites: newFavorites});
+    } else {
+      this.setState({favorites: this.state.favorites.concat(id)})
+    }
+  }
+
+  isFavorite(id) {
+    if (this.state.favorites.includes(id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
-    const { isLoading, error, movies } = this.state;
+    const { isLoading, error, movies} = this.state;
 
     return (
       <div className="movies-content">
         {isLoading && <p>Loading...</p>}
         {error && <p>{error}</p>}
         {movies.map(({ title, image, description, id, free, video }) => (
-          <MovieCard key={id} image={image} title={title} description={description} />
+          
+          <MovieCard toggle={this.toggleFavorites} fav={this.isFavorite(id)} key={id} id={id} image={image} title={title} description={description} free={free} video={video}/>
         ))}
       </div>
     );

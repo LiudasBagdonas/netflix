@@ -1,8 +1,6 @@
 .button {
     background-color: #E50914;
     color: #E5E5E5;
-    /* height: 40px;
-    width: 120px; */
     border-radius: 4px;
     outline: none;
     border: 0px;
@@ -15,7 +13,7 @@
 }
 
 button:active {
-    background-color: #E50980;
+    background-color: #410411;
 }
 
 .button--big {
@@ -27,4 +25,9 @@ button:active {
     height: 30px;
     padding: 10px 30px;
     font-size: 15px;
+}
+
+.button-isfav--true {
+    background-color: transparent;
+    border: 1px solid #410411;
 }

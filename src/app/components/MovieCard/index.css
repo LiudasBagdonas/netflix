@@ -3,12 +3,9 @@
     width: 270px;
     height: 400px;
     color: white;
-    /* margin: 70px 0 0; */
     position: relative;
 }
-/* .movie-card:last-child {
-    margin-bottom: 70px;
-} */
+
 .movie-card button {
     width: 50%;
 }
