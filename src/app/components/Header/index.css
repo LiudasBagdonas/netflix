@@ -22,3 +22,6 @@ nav {
     margin: 0 20px;
     width: 100%;
 }
+a {
+    text-decoration: none;
+}

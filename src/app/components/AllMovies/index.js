@@ -1,14 +1,19 @@
 import React from 'react';
 import MovieCard from "../MovieCard";
 import "./index.css";
+import { withRouter } from "react-router-dom";
 
 class AllMovies extends React.Component {
-  state = {
-    isLoading: false,
-    error: null,
-    movies: [],
-    favorites: []
-  };
+  constructor(movie) {
+
+    super();
+    this.state = {
+      isLoading: false,
+      error: null,
+      movies: [],
+      favorites: []
+    }
+  }
 
 //   componentDidMount() {
 //     this.setState({ isLoading: true });
@@ -35,9 +40,17 @@ class AllMovies extends React.Component {
   async componentDidMount() {
     try {
       this.setState({ isLoading: true });
+      const loginStatus = localStorage.getItem("token") ? 
+      'https://academy-video-api.herokuapp.com/content/items' 
+      : 'https://academy-video-api.herokuapp.com/content/free-items/';
 
-      const response = await fetch("https://academy-video-api.herokuapp.com/content/free-items/");
+      const response = await fetch(loginStatus,{
+        headers: {
+          authorization: localStorage.getItem("token") ? localStorage.getItem("token") : ''
+          }})
       const json = await response.json();
+      
+      
       if (!response.ok) {
         const error =
           { 404: "The thing you're looking for is not there 🤷‍♂️" }[
@@ -74,6 +87,7 @@ class AllMovies extends React.Component {
 
   render() {
     const { isLoading, error, movies} = this.state;
+    console.log(this.props)
 
     return (
       <div className="movies-content">
@@ -81,11 +95,11 @@ class AllMovies extends React.Component {
         {error && <p>{error}</p>}
         {movies.map(({ title, image, description, id, free, video }) => (
           
-          <MovieCard toggle={this.toggleFavorites} fav={this.isFavorite(id)} key={id} id={id} image={image} title={title} description={description} free={free} video={video}/>
+          <MovieCard movie={this.props.movie} toggle={this.toggleFavorites} fav={this.isFavorite(id)} key={id} id={id} image={image} title={title} description={description} free={free} video={video}/>
         ))}
       </div>
     );
   }
 }
 
-export default AllMovies;
+export default withRouter(AllMovies);

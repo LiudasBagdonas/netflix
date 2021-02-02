@@ -1,15 +1,25 @@
 import './index.css';
 import Button from '../Button';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    // Redirect,
+    Link,
+    // NavLink
+  } from "react-router-dom";
 
-function MovieCard({ title, image, description, free, video, fav, toggle, id}) {
+function MovieCard({ title, image, description, free, video, fav, toggle, id, movie }) {
 
-const btnText = fav ? 'Remove ' : 'Add';
-
+    const btnText = fav ? 'Remove ' : 'Add';
+    console.log('moviecard', movie)
     return (
         <div className="movie-card">
-            <div className="movie-img-box">
-                <img src={'image'} alt="movie img" />
-            </div>
+            <Link id={id} to={`/movies/:${id}`}>
+                <div className="movie-img-box">
+                    <img src={'image'} alt="movie img" />
+                </div>
+            </Link>
             <div className="movie-card-text-box">
                 <h3>{title}</h3>
                 <p className="movie-description">{description}</p>
