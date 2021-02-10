@@ -1,20 +1,16 @@
 import './index.css';
-import React from 'react';
+import { connect } from "react-redux";
+import React, {useState } from 'react';
 import Button from '../../components/Button';
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
+function Login({ onLogin }) {
+    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('')
 
-class Login extends React.Component {
-    constructor(loginState, setLoginState) {
-        super();
-        this.state = {
-            password: "",
-            username: "",
-        };
-    }
+    const history = useHistory();
 
-    onSubmit = (e) => {
-        const { password, username } = this.state;
+    const onSubmit = (e) => {
         e.preventDefault();
 
         fetch("https://academy-video-api.herokuapp.com/auth/login ", {
@@ -29,45 +25,44 @@ class Login extends React.Component {
                 throw Error(res.status);
             })
             .then((data) => {
-                console.log(data);
-                localStorage.setItem("token", data.token);
-                this.props.setLoginState(true)
-                this.props.history.replace("/movies");
+                onLogin(data.token);
+                history.replace("/movies");
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
-    handleChange = (e, field) => {
-        this.setState({ [field]: e.target.value });
-    };
+    return (
+        <main className="login-main" >
 
-    render() {
-
-        return (
-            <main className="login-main" >
-            
-                <div className="form-box">
-                    <form className="login-form" onSubmit={this.onSubmit}>
-                        <label>Username
+            <div className="form-box">
+                <form className="login-form" onSubmit={(e) => onSubmit(e)}>
+                    <label>Username
                     <input name="username" type="text" placeholder="Username"
-                                value={this.state.username}
-                                onChange={(e) => this.handleChange(e, "username")} />
-                        </label>
-                        <label >Password
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)} />
+                    </label>
+                    <label >Password
                     <input name="password" type="password" placeholder="Password"
-                                value={this.state.password}
-                                onChange={(e) => this.handleChange(e, "password")} />
-                        </label>
-                        <Button big type="submit">Sign In</Button>
-                    </form>
-                </div>
-            </main>
-        )
-    }
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)} />
+                    </label>
+                    <Button big type="submit">Sign In</Button>
+                </form>
+            </div>
+        </main>
+    )
+
 
 
 }
-
-export default withRouter(Login);
+const  mapDispatchToProps = (dispatch) => {
+    return {
+      onLogin: (token) => {
+        dispatch({ type: "LOGIN_SUCCESS", payload: token });
+      },
+    };
+  }
+  
+  export default connect(null, mapDispatchToProps)(Login);

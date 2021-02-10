@@ -1,8 +1,7 @@
 import './index.css';
 import React from 'react';
-import {useState} from 'react';
+import { connect } from 'react-redux';
 
-import { withRouter } from "react-router-dom";
 import navimg from '../../imgs/navigationimg.png';
 import Button from '../Button';
 import {
@@ -12,33 +11,44 @@ import {
     NavLink
 } from "react-router-dom";
 
-function Header(loginState, setLoginState) {
+function Header({token, onLogout}) {
 
-console.log(loginState)
-        return (
-            <header>
-                <nav>
+    return (
+        <header>
+            <nav>
+                <NavLink to="/">
+                    <div className="nav-home-img-box">
+                        <img src={navimg} className="nav-home-img" alt=""></img>
+                    </div>
+                </NavLink>
+                {token ?
                     <NavLink to="/">
-                        <div className="nav-home-img-box">
-                            <img src={navimg} className="nav-home-img" alt=""></img>
-                        </div>
-                    </NavLink>
-                    {loginState.loginState ?
-                        <NavLink to="/">
-                            <Button 
-                            logout={loginState.setLoginState} 
+                        <Button
+                            logout={onLogout}
                             big>Log Out</Button>
-                        </NavLink >
-                        :
-                        <NavLink to="/login">
-                            <Button big>Sign In</Button>
-                        </NavLink>
-                    }
-                </nav>
-            </header>
-        )
-
-
+                    </NavLink >
+                    :
+                    <NavLink to="/login">
+                        <Button big>Sign In</Button>
+                    </NavLink>
+                }
+            </nav>
+        </header>
+    )
 }
 
-export default withRouter(Header);
+function mapState({ auth }) {
+    return {
+        token: auth.token
+    }
+}
+
+function  mapDispatchToProps(dispatch) {
+    return {
+      onLogout: () => {
+        dispatch({ type: "LOGOUT", payload: null });
+      },
+    };
+  }
+
+export default connect(mapState, mapDispatchToProps)(Header);

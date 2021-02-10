@@ -11,11 +11,10 @@ import {
 
 function MovieCard({ title, image, description, free, video, fav, toggle, id, movie }) {
 
-    const btnText = fav ? 'Remove ' : 'Add';
-    console.log('moviecard', movie)
+    const btnText = fav.includes(id) ? 'Remove ' : 'Add';
     return (
         <div className="movie-card">
-            <Link id={id} to={`/movies/:${id}`}>
+            <Link to={`/movies/:${id}`}>
                 <div className="movie-img-box">
                     <img src={'image'} alt="movie img" />
                 </div>

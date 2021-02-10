@@ -1,11 +1,13 @@
 import './index.css';
+import { connect } from "react-redux";
+
 import Button from '../../components/Button';
 import Divider from '../../components/Divider';
 import AllMovies from '../../components/AllMovies';
 
-function Main() {
+function Main({token}) {
 
-    const content = localStorage.getItem("token") ?
+    const content = token ?
         <main>
             <section className="main-content">
                 <AllMovies />
@@ -33,4 +35,11 @@ function Main() {
     );
 }
 
-export default Main;
+function mapState({auth}) {
+    return {
+        token: auth.token
+    }
+}
+
+
+  export default connect(mapState, null)(Main);

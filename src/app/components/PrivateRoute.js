@@ -4,8 +4,6 @@ function PrivateRoute(props) {
   const location = useLocation();
   const isLogedIn = !!localStorage.getItem("token");
 
-  console.log("Private route", location);
-
   if (isLogedIn) {
     return <Route {...props} />;
   }
