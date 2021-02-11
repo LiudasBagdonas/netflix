@@ -14,7 +14,7 @@ function MovieCard({ title, image, description, free, video, fav, toggle, id, mo
     const btnText = fav.includes(id) ? 'Remove ' : 'Add';
     return (
         <div className="movie-card">
-            <Link to={`/movies/:${id}`}>
+            <Link to={`/movies/${id}`}>
                 <div className="movie-img-box">
                     <img src={'image'} alt="movie img" />
                 </div>

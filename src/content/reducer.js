@@ -11,6 +11,7 @@ const INITIAL_STATE = {
 function reducer(state = INITIAL_STATE, action) {
 
   switch (action.type) {
+    // All movies
     case "GET_MOVIES":
       return { ...state, movies: { ...INITIAL_STATE.movies, isLoading: true } };
     case "GET_MOVIES_SUCCESS":
@@ -23,6 +24,20 @@ function reducer(state = INITIAL_STATE, action) {
         ...state,
         movies: { ...INITIAL_STATE.movies, error: action.payload },
       };
+      // Single movie
+      case "GET_SINGLE_MOVIE":
+        return { ...state, movies: { ...INITIAL_STATE.movies, isLoading: true } };
+      case "GET_SINGLE_MOVIE_SUCCESS":
+        return {
+          ...state,
+          movies: { ...INITIAL_STATE.movies, selected: action.payload },
+        };
+      case "GET_SINGLE_MOVIE_FAILURE":
+        return {
+          ...state,
+          movies: { ...INITIAL_STATE.movies, error: action.payload },
+        };
+
     case "TOGGLE_FAVORITE":
       const toggleFavorite = (id) => {
         if (state.favorites.includes(id)) {
