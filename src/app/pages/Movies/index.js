@@ -1,3 +1,5 @@
+import auth from '../../../auth';
+
 import './index.css';
 import { connect } from 'react-redux';
 import Button from '../../components/Button';
@@ -33,9 +35,9 @@ function Movies({token}) {
     );
 }
 
-function mapState({auth}) {
+function mapState(state) {
     return {
-        token: auth.token
+        token: auth.selectors.login(state)
     }
 }
 

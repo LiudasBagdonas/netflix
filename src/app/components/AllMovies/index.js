@@ -1,3 +1,6 @@
+import content from '../../../content';
+import auth from '../../../auth';
+
 import { useRef } from "react";
 import { connect } from "react-redux";
 
@@ -16,7 +19,6 @@ function AllMovies({
   favorites,
   toggleFavorite
 }) {
-
   const fetchOptions = useRef({ headers: { authorization: token }});
 
   useFetch({
@@ -41,29 +43,30 @@ function AllMovies({
   );
 
 }
-function mapState({ content, auth }) {
+
+function mapState(state) {
   return {
-    favorites: content.favorites,
-    movies: content.movies.data,
-    loading: content.movies.isLoading,
-    token: auth.token,
-    error: content.movies.error
+    favorites: content.selectors.favorites(state),
+    movies: content.selectors.allMovies(state),
+    loading: content.selectors.isLoading(state),
+    token: auth.selectors.login(state),
+    error: content.selectors.error(state)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onStart: () => {
-      dispatch({ type: "GET_MOVIES" });
+      dispatch({ type: content.types.GET_MOVIES });
     },
     onSuccess: (json) => {
-      dispatch({ type: "GET_MOVIES_SUCCESS", payload: json });
+      dispatch({ type: content.types.GET_MOVIES_SUCCESS, payload: json });
     },
     onFailure: (error) => {
-      dispatch({ type: "GET_MOVIES_FAILURE", payload: error });
+      dispatch({ type: content.types.GET_MOVIES_FAILURE, payload: error });
     },
     toggleFavorite: (id) => {
-      dispatch({type: "TOGGLE_FAVORITE", payload: id})
+      dispatch({type: content.types.TOGGLE_FAVORITE, payload: id})
     }
   };
 }

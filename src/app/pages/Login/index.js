@@ -1,3 +1,4 @@
+import auth from '../../../auth';
 import './index.css';
 import { connect } from "react-redux";
 import React, {useState } from 'react';
@@ -60,7 +61,7 @@ function Login({ onLogin }) {
 const  mapDispatchToProps = (dispatch) => {
     return {
       onLogin: (token) => {
-        dispatch({ type: "LOGIN_SUCCESS", payload: token });
+        dispatch({ type: auth.types.LOGIN, payload: token });
       },
     };
   }

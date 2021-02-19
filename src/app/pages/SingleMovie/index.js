@@ -1,3 +1,6 @@
+import content from '../../../content';
+import auth from '../../../auth';
+
 import './index.css';
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -14,6 +17,7 @@ function SingleMovie({
     toggleFavorites,
     movie
 }) {
+    console.log(content)
     const [modalVisibility, setModalVisibility] = useState(false)
     const movieId = useParams();
     const url = `https://academy-video-api.herokuapp.com/content/items/${movieId.id}`;
@@ -29,8 +33,6 @@ function SingleMovie({
         onStart,
     });
 
-
-    console.log(modalVisibility)
     const btnText = favorites.includes(movieId.id) ? 'Remove ' : 'Add';
     return (
         <main className='single-movie-main'>
@@ -56,29 +58,29 @@ function SingleMovie({
     );
 }
 
-function mapState({ content, auth }) {
+function mapState(state) {
     return {
-        movie: content.movies.selected,
-        isLoading: content.movies.isLoading,
-        error: content.movies.error,
-        favorites: content.favorites,
-        token: auth.token,
+        movie: content.selectors.selected(state),
+        isLoading: content.selectors.isLoading(state),
+        error: content.selectors.error(state),
+        favorites: content.selectors.favorites(state),
+        token: auth.selectors.login(state),
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onStart: () => {
-            dispatch({ type: 'GET_SINGLE_MOVIE' });
+            dispatch({ type: content.types.GET_SINGLE_MOVIE });
         },
         onSuccess: (json) => {
-            dispatch({ type: 'GET_SINGLE_MOVIE_SUCCESS', payload: json });
+            dispatch({ type: content.types.GET_SINGLE_MOVIE_SUCCESS, payload: json });
         },
         onFailure: (error) => {
-            dispatch({ type: 'GET_SINGLE_MOVIE_FAIL', payload: error });
+            dispatch({ type: content.types.GET_SINGLE_MOVIE_FAIL, payload: error });
         },
         toggleFavorites: (id) => {
-            dispatch({ type: 'TOGGLE_FAVORITE', payload: id });
+            dispatch({ type: content.types.TOGGLE_FAVORITE, payload: id });
         },
     };
 };

@@ -1,3 +1,5 @@
+import auth from '../../../auth';
+
 import './index.css';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -37,16 +39,16 @@ function Header({token, onLogout}) {
     )
 }
 
-function mapState({ auth }) {
+function mapState(state) {
     return {
-        token: auth.token
+        token: auth.selectors.login(state)
     }
 }
 
 function  mapDispatchToProps(dispatch) {
     return {
       onLogout: () => {
-        dispatch({ type: "LOGOUT", payload: null });
+        dispatch({ type: auth.types.LOGOUT, payload: null });
       },
     };
   }
