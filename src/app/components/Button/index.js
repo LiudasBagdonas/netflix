@@ -5,7 +5,6 @@ function Button({children, big, fav, event, id, logout, watch}) {
 const size = big ? 'big' : 'small';
 const favorite = fav !== undefined && fav.includes(id) ? 'true': 'false';
 
-
 return (
         <button onClick={() => (
             logout ? logout():

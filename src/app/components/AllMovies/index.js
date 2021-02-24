@@ -1,35 +1,25 @@
 import content from '../../../content';
 import auth from '../../../auth';
 
-import { useRef } from "react";
-import { connect } from "react-redux";
+import { useRef, useEffect } from "react";
+import { useDispatch, useSelector, connect } from "react-redux";
 
 import MovieCard from "../MovieCard";
 import "./index.css";
-import useFetch from '../../hooks/useFetch';
 
-function AllMovies({
-  loading,
-  movies,
-  token,
-  error,
-  onSuccess,
-  onFailure,
-  onStart,
-  favorites,
-  toggleFavorite
-}) {
-  const fetchOptions = useRef({ headers: { authorization: token }});
+function AllMovies() {
+  
+  const favorites = useSelector(content.selectors.favorites)
+  const movies = useSelector(content.selectors.allMovies)
+  const loading = useSelector(content.selectors.isLoading)
+  const token = useSelector(auth.selectors.login)
+  const error = useSelector(content.selectors.error)
+  
+  const dispatch = useDispatch();
 
-  useFetch({
-    url: token ? 
-    "https://academy-video-api.herokuapp.com/content/items" : 
-    "https://academy-video-api.herokuapp.com/content/free-items",
-    fetchOptions: fetchOptions.current,
-    onSuccess,
-    onFailure,
-    onStart,
-  });
+  useEffect(() => {
+    dispatch(content.actions.getMovies(token));
+  }, [dispatch]);
 
   return (
     <div className="movies-content">
@@ -37,38 +27,12 @@ function AllMovies({
       {error && <p>{error}</p>}
       {movies.map(({ title, image, description, id, free, video }) => (
 
-        <MovieCard toggle={toggleFavorite} fav={favorites} key={id} id={id} image={image} title={title} description={description} free={free} video={video} />
+        <MovieCard fav={favorites} key={id} id={id} image={image} title={title} description={description} free={free} video={video} />
       ))}
     </div>
   );
 
 }
 
-function mapState(state) {
-  return {
-    favorites: content.selectors.favorites(state),
-    movies: content.selectors.allMovies(state),
-    loading: content.selectors.isLoading(state),
-    token: auth.selectors.login(state),
-    error: content.selectors.error(state)
-  };
-}
+export default AllMovies;
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onStart: () => {
-      dispatch({ type: content.types.GET_MOVIES });
-    },
-    onSuccess: (json) => {
-      dispatch({ type: content.types.GET_MOVIES_SUCCESS, payload: json });
-    },
-    onFailure: (error) => {
-      dispatch({ type: content.types.GET_MOVIES_FAILURE, payload: error });
-    },
-    toggleFavorite: (id) => {
-      dispatch({type: content.types.TOGGLE_FAVORITE, payload: id})
-    }
-  };
-}
-
-export default connect(mapState, mapDispatchToProps)(AllMovies);

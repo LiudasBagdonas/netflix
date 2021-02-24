@@ -2,36 +2,26 @@ import content from '../../../content';
 import auth from '../../../auth';
 
 import './index.css';
-import React, { useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import useFetch from '../../hooks/useFetch';
-import { useLocation, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from "react-router-dom";
 import Button from '../../components/Button';
 
-function SingleMovie({
-    token,
-    favorites,
-    onSuccess,
-    onFailure,
-    onStart,
-    toggleFavorites,
-    movie
-}) {
-    console.log(content)
+function SingleMovie() {
+
+    const favorites = useSelector(content.selectors.favorites)
+    const movie = useSelector(content.selectors.selected)
+    const token = useSelector(auth.selectors.login)
+    
     const [modalVisibility, setModalVisibility] = useState(false)
     const movieId = useParams();
-    const url = `https://academy-video-api.herokuapp.com/content/items/${movieId.id}`;
-    const fetchOptions = useRef({
-        headers: { authorization: token },
-    });
+    const dispatch = useDispatch();
 
-    useFetch({
-        url: url,
-        fetchOptions: fetchOptions.current,
-        onSuccess,
-        onFailure,
-        onStart,
-    });
+    const toggleFavorite = () => dispatch(content.actions.toggleFavorite(movieId.id));
+
+    useEffect(() => {
+        dispatch(content.actions.getSingleMovie(movieId, token))
+    }, [dispatch])
 
     const btnText = favorites.includes(movieId.id) ? 'Remove ' : 'Add';
     return (
@@ -50,7 +40,7 @@ function SingleMovie({
                     <p>{movie.description}</p>
                     <div className='single-movie-buttons-box'>
                         <Button watch={setModalVisibility}>Watch</Button>
-                        <Button fav={favorites} event={toggleFavorites} id={movieId.id}>{btnText}</Button>
+                        <Button fav={favorites} event={toggleFavorite} id={movieId.id}>{btnText}</Button>
                     </div>
                 </div>
             </div>
@@ -58,31 +48,4 @@ function SingleMovie({
     );
 }
 
-function mapState(state) {
-    return {
-        movie: content.selectors.selected(state),
-        isLoading: content.selectors.isLoading(state),
-        error: content.selectors.error(state),
-        favorites: content.selectors.favorites(state),
-        token: auth.selectors.login(state),
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onStart: () => {
-            dispatch({ type: content.types.GET_SINGLE_MOVIE });
-        },
-        onSuccess: (json) => {
-            dispatch({ type: content.types.GET_SINGLE_MOVIE_SUCCESS, payload: json });
-        },
-        onFailure: (error) => {
-            dispatch({ type: content.types.GET_SINGLE_MOVIE_FAIL, payload: error });
-        },
-        toggleFavorites: (id) => {
-            dispatch({ type: content.types.TOGGLE_FAVORITE, payload: id });
-        },
-    };
-};
-
-export default connect(mapState, mapDispatchToProps)(SingleMovie);
+export default SingleMovie;

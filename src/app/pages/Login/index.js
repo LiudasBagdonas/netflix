@@ -1,15 +1,16 @@
 import auth from '../../../auth';
 import './index.css';
-import { connect } from "react-redux";
-import React, {useState } from 'react';
+import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
 import Button from '../../components/Button';
 import { useHistory } from "react-router-dom";
 
-function Login({ onLogin }) {
+function Login() {
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
 
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +27,7 @@ function Login({ onLogin }) {
                 throw Error(res.status);
             })
             .then((data) => {
-                onLogin(data.token);
+                dispatch(auth.actions.onLogin(data.token))
                 history.replace("/movies");
             })
             .catch((error) => {
@@ -54,16 +55,6 @@ function Login({ onLogin }) {
             </div>
         </main>
     )
-
-
-
 }
-const  mapDispatchToProps = (dispatch) => {
-    return {
-      onLogin: (token) => {
-        dispatch({ type: auth.types.LOGIN, payload: token });
-      },
-    };
-  }
-  
-  export default connect(null, mapDispatchToProps)(Login);
+
+export default Login;

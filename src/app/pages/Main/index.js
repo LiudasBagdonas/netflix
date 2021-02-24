@@ -1,11 +1,14 @@
 import './index.css';
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import auth from '../../../auth';
 
 import Button from '../../components/Button';
 import Divider from '../../components/Divider';
 import AllMovies from '../../components/AllMovies';
 
-function Main({token}) {
+function Main() {
+
+const token = useSelector(auth.selectors.login)
 
     const content = token ?
         <main>
@@ -35,11 +38,4 @@ function Main({token}) {
     );
 }
 
-function mapState({auth}) {
-    return {
-        token: auth.token
-    }
-}
-
-
-  export default connect(mapState, null)(Main);
+  export default Main;

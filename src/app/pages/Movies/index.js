@@ -1,12 +1,15 @@
 import auth from '../../../auth';
 
 import './index.css';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Button from '../../components/Button';
 import Divider from '../../components/Divider';
 import AllMovies from '../../components/AllMovies';
 
-function Movies({token}) {
+function Movies() {
+
+    const token = useSelector(auth.selectors.login)
+
     const content = token ?
         <main>
             <section className="main-content">
@@ -23,22 +26,16 @@ function Movies({token}) {
             </section>
             <Divider />
             <section className="main-content">
-                <AllMovies/>
+                <AllMovies />
             </section>
         </main>
         ;
 
     return (
         <>
-        {content}
+            {content}
         </>
     );
 }
 
-function mapState(state) {
-    return {
-        token: auth.selectors.login(state)
-    }
-}
-
-export default connect(mapState, null)(Movies);
+export default Movies;

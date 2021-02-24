@@ -2,7 +2,7 @@ import auth from '../../../auth';
 
 import './index.css';
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import navimg from '../../imgs/navigationimg.png';
 import Button from '../Button';
@@ -13,7 +13,11 @@ import {
     NavLink
 } from "react-router-dom";
 
-function Header({token, onLogout}) {
+function Header() {
+
+const token = useSelector(auth.selectors.login);
+const dispatch = useDispatch();
+const onLogout = () => dispatch(auth.actions.onLogout())
 
     return (
         <header>
@@ -39,18 +43,4 @@ function Header({token, onLogout}) {
     )
 }
 
-function mapState(state) {
-    return {
-        token: auth.selectors.login(state)
-    }
-}
-
-function  mapDispatchToProps(dispatch) {
-    return {
-      onLogout: () => {
-        dispatch({ type: auth.types.LOGOUT, payload: null });
-      },
-    };
-  }
-
-export default connect(mapState, mapDispatchToProps)(Header);
+export default Header;

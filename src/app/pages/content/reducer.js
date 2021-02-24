@@ -1,20 +1,28 @@
 import { useRef } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector, connect } from "react-redux";
+import content from '../../../content';
+import auth from '../../../auth';
 
 import useFetch from "../../hooks/useFetch";
 
 import { Card } from "../../components";
 
 function Content({
-  loading,
-  movies,
-  token,
+  // loading,
+  // movies,
+  // token,
   onSuccess,
   onFailure,
   onStart,
-  favorites,
+  // favorites,
   toggleFavorite,
 }) {
+console.log('DUCK')
+  const favorites = useSelector(content.selectors.favorites)
+  const movies = useSelector(content.selectors.allMovies)
+  const loading = useSelector(content.selectors.isLoading)
+  const token = useSelector(auth.selectors.login)
+
   const fetchOptions = useRef({
     headers: { authorization: token },
   });
@@ -54,14 +62,14 @@ function Content({
   );
 }
 
-function mapState({ content, auth }) {
-  return {
-    favorites: content.favorites,
-    movies: content.movies.data,
-    loading: content.movies.isLoading,
-    token: auth.token
-  };
-}
+// function mapState({ content, auth }) {
+//   return {
+//     favorites: content.favorites,
+//     movies: content.movies.data,
+//     loading: content.movies.isLoading,
+//     token: auth.token
+//   };
+// }
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -80,4 +88,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapState, mapDispatchToProps)(Content);
+export default connect(null, mapDispatchToProps)(Content);
