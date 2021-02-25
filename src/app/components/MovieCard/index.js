@@ -1,5 +1,8 @@
 import './index.css';
 import Button from '../Button';
+import {useContext} from 'react';
+import ContentContext from "../../contexts/ContentContext";
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -11,11 +14,12 @@ import {
 
 function MovieCard({ title, image, description, free, video, fav, toggle, id, movie }) {
 
+    const {setSelected} = useContext(ContentContext.context);
     const btnText = fav ? 'Remove ' : 'Add';
-    console.log('moviecard', movie)
+
     return (
         <div className="movie-card">
-            <Link id={id} to={`/movies/:${id}`}>
+            <Link id={id} to={`/movies/${id}`} onClick={() => setSelected(id)}>
                 <div className="movie-img-box">
                     <img src={'image'} alt="movie img" />
                 </div>

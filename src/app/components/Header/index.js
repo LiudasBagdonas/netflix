@@ -1,8 +1,6 @@
 import './index.css';
-import React from 'react';
-import {useState} from 'react';
-
-import { withRouter } from "react-router-dom";
+import React, { useContext } from 'react';
+import AuthContext from "../../contexts/AuthContext";
 import navimg from '../../imgs/navigationimg.png';
 import Button from '../Button';
 import {
@@ -12,33 +10,35 @@ import {
     NavLink
 } from "react-router-dom";
 
-function Header(loginState, setLoginState) {
+function Header() {
 
-console.log(loginState)
-        return (
-            <header>
-                <nav>
+    const { loginState, setLoginState } = useContext(AuthContext.context);
+
+
+    return (
+        <header>
+            <nav>
+                <NavLink to="/">
+                    <div className="nav-home-img-box">
+                        <img src={navimg} className="nav-home-img" alt=""></img>
+                    </div>
+                </NavLink>
+                {loginState ?
                     <NavLink to="/">
-                        <div className="nav-home-img-box">
-                            <img src={navimg} className="nav-home-img" alt=""></img>
-                        </div>
-                    </NavLink>
-                    {loginState.loginState ?
-                        <NavLink to="/">
-                            <Button 
-                            logout={loginState.setLoginState} 
+                        <Button
+                            logout={setLoginState}
                             big>Log Out</Button>
-                        </NavLink >
-                        :
-                        <NavLink to="/login">
-                            <Button big>Sign In</Button>
-                        </NavLink>
-                    }
-                </nav>
-            </header>
-        )
+                    </NavLink >
+                    :
+                    <NavLink to="/login">
+                        <Button big>Sign In</Button>
+                    </NavLink>
+                }
+            </nav>
+        </header>
+    )
 
 
 }
 
-export default withRouter(Header);
+export default Header;

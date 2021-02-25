@@ -2,10 +2,14 @@ import './index.css';
 import Button from '../../components/Button';
 import Divider from '../../components/Divider';
 import AllMovies from '../../components/AllMovies';
+import AuthContext from "../../contexts/AuthContext";
+import {useContext} from 'react';
 
 function Main() {
 
-    const content = localStorage.getItem("token") ?
+    const {loginState} = useContext(AuthContext.context);
+    
+    const content = loginState ?
         <main>
             <section className="main-content">
                 <AllMovies />
