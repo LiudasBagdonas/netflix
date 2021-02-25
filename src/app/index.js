@@ -26,33 +26,32 @@ function App() {
 
 
     <div className="App">
-      <AuthContext.Provider>
-        <ContentContext.Provider>
-          <Router>
-            <Header/>
-
+      <Router>
+        <AuthContext.Provider>
+          <ContentContext.Provider>
+            <Header />
             <Switch>
-
+              
               <Route exact path="/">
                 <Main />
               </Route>
 
               <Route exact path="/login">
-                <Login/>
+                <Login />
               </Route>
 
               <PrivateRoute exact path="/movies">
-                <Movies/>
+                <Movies />
               </PrivateRoute>
 
-              <PrivateRoute exact path="/movies/:id" >
+              <Route exact path="/movies/:id" >
                 <SingleMovie />
-              </PrivateRoute>
+              </Route>
 
             </Switch>
-          </Router>
-        </ContentContext.Provider>
-      </AuthContext.Provider>
+          </ContentContext.Provider>
+        </AuthContext.Provider>
+      </Router>
       <Footer />
     </div>
   );

@@ -19,7 +19,7 @@ function MovieCard({ title, image, description, free, video, fav, toggle, id, mo
 
     return (
         <div className="movie-card">
-            <Link id={id} to={`/movies/${id}`} onClick={() => setSelected(id)}>
+            <Link id={id} to={`/movies/${id}`}>
                 <div className="movie-img-box">
                     <img src={'image'} alt="movie img" />
                 </div>

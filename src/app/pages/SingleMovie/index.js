@@ -1,5 +1,5 @@
 import './index.css';
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from "../../contexts/AuthContext";
 import ContentContext from "../../contexts/ContentContext";
@@ -8,13 +8,17 @@ import Button from '../../components/Button';
 
 function SingleMovie() {
 
-    // const [movie, setMovie] = useState([]);
     const [modalVisibility, setModalVisibility] = useState(false);
-    const {selected, favorites, isFavorite, toggleFavorites, movie} = useContext(ContentContext.context);
+    const {setSelected, favorites, isFavorite, toggleFavorites, movie} = useContext(ContentContext.context);
+    const {id} = useParams();
+
+    useEffect(() => {
+        setSelected(id);
+    }, [])
 
     console.log(movie)
 
-    const btnText = favorites.includes(movie.id) ? 'Remove ' : 'Add';
+    const btnText = favorites.includes(id) ? 'Remove ' : 'Add';
     return (
         <main className='single-movie-main'>
         {modalVisibility ?

@@ -3,8 +3,7 @@ import Button from '../../components/Button';
 import Divider from '../../components/Divider';
 import AllMovies from '../../components/AllMovies';
 
-function Movies(movie) {
-    console.log(movie)
+function Movies() {
     const content = localStorage.getItem("token") ?
         <main>
             <section className="main-content">
@@ -21,7 +20,7 @@ function Movies(movie) {
             </section>
             <Divider />
             <section className="main-content">
-                <AllMovies movie={movie}/>
+                <AllMovies/>
             </section>
         </main>
         ;
