@@ -42,9 +42,9 @@ function App() {
               <Movies/>
             </PrivateRoute>
 
-            <PrivateRoute exact path="/movies/:id" >
+            <Route exact path="/movies/:id" >
               <SingleMovie />
-            </PrivateRoute>
+            </Route>
 
           </Switch>
         </Router>
